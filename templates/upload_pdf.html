@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload PDF - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 mx-auto" style="max-width: 600px;">
+        <h3 class="text-center mb-4">🤖 Generate Quiz via AI</h3>
+        
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label fw-bold">Select PDF Document</label>
+                <input type="file" name="pdf" class="form-control" accept="application/pdf" required>
+            </div>
+
+            <div class="row mb-4 mt-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-primary">Number of Questions</label>
+                    <select name="num_questions" class="form-select border-primary">
+                        <option value="5">5 Questions (Short)</option>
+                        <option value="10" selected>10 Questions (Standard)</option>
+                        <option value="15">15 Questions (Extended)</option>
+                        <option value="20">20 Questions (Full Exam)</option>
+                        <option value="25">25 Questions</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-primary">Time Limit (Minutes)</label>
+                    <input type="number" name="time_limit" class="form-control border-primary" value="10" min="1" max="120" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 fw-bold py-2">Upload & Generate</button>
+        </form>
+        
+        <div class="text-center mt-3">
+            <a href="/dashboard" class="btn btn-outline-secondary btn-sm">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

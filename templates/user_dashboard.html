@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student Dashboard - AI Auto-Quiz</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+  body.dashboard-bg {
+    background: url('{{ url_for("static", filename="images/ein.jpg") }}') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    position: relative;
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+  
+  body.dashboard-bg::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(15, 15, 20, 0.85); /* Darker overlay for glass effect */
+    backdrop-filter: blur(8px); /* Soft blur to the background */
+    z-index: 0;
+  }
+  
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* --- IDLE ANIMATION: SHIMMERING TEXT --- */
+  .text-gradient {
+    background: linear-gradient(to right, #00f2fe, #4facfe, #8f94fb, #00f2fe);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 4s linear infinite;
+    font-weight: 800;
+  }
+
+  @keyframes shine {
+    to { background-position: 200% center; }
+  }
+
+  /* --- IDLE ANIMATION: FLOATING GLASS CARDS --- */
+  .glass-card {
+    background: rgba(30, 30, 40, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    animation: floating 6s ease-in-out infinite;
+  }
+
+  /* Make them float slightly out of sync based on their order */
+  .col-md-4:nth-child(odd) .glass-card { animation-delay: 0s; }
+  .col-md-4:nth-child(even) .glass-card { animation-delay: 1.5s; }
+  .col-md-4:nth-child(3n) .glass-card { animation-delay: 3s; }
+
+  @keyframes floating {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+
+  .glass-card:hover {
+    border-color: #00f2fe;
+    box-shadow: 0 15px 35px rgba(0, 242, 254, 0.3);
+    /* Pauses the float when you hover over it */
+    animation-play-state: paused; 
+    transform: translateY(-5px) scale(1.02);
+  }
+
+  /* --- IDLE ANIMATION: GLOWING BUTTONS --- */
+  .btn-custom-glow {
+    background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 51%, #43e97b 100%);
+    background-size: 200% auto;
+    color: #1a1a1a !important;
+    border: none;
+    border-radius: 30px;
+    font-weight: 700;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(56, 249, 215, 0.4);
+  }
+
+  .btn-custom-glow:hover {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(56, 249, 215, 0.6);
+  }
+
+  .btn-custom-glow::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    animation: sweep 3s infinite;
+    z-index: -1;
+  }
+
+  @keyframes sweep {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
+  }
+
+  /* --- GLASS TABLE --- */
+  .table-glass {
+    color: white;
+    background: transparent;
+    margin-top: 15px;
+  }
+  .table-glass thead th {
+    border-bottom: 2px solid #00f2fe;
+    color: #4facfe;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .table-glass td, .table-glass th {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    background: transparent;
+    padding: 15px 10px;
+    color: #f8f9fa !important;
+  }
+
+  hr {
+    border-color: rgba(255,255,255,0.2);
+    margin: 30px 0;
+  }
+</style>
+</head>
+
+<body class="dashboard-bg">
+<div class="container py-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-gradient">Welcome, {{ session.get('user_name') }}</h2>
+    <div>
+      <a href="/logout" class="btn btn-outline-light rounded-pill px-4">Logout</a>
+    </div>
+  </div>
+
+  <h4 class="mb-4" style="color: #e0e0e0;">Available Quizzes</h4>
+  <div class="row">
+    {% for q in quizzes %}
+      <div class="col-md-4 mb-4">
+        <div class="glass-card d-flex flex-column h-100">
+          <h5 class="fw-bold text-white mb-1">{{ q.title }}</h5>
+          <p class="text-info small mb-4">
+            {{ q.category_name if q.category_name else 'General' }} • {{ q.time_limit if q.time_limit else '10' }} mins
+          </p>
+          
+          <div class="mt-auto d-flex justify-content-between align-items-center">
+            <a class="btn btn-custom-glow px-4 py-2" href="/start_quiz/{{ q.id }}">Attempt Exam</a>
+            <a class="btn btn-sm btn-outline-secondary rounded-pill" href="/leaderboard/{{ q.id }}">Leaderboard</a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <p class="text-muted">No exams are currently available. Check back later!</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <hr>
+
+  <h4 class="mb-3" style="color: #e0e0e0;">Your Recent Attempts</h4>
+  <div style="background: rgba(30, 30, 40, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+    <table class="table table-glass mb-0">
+      <thead>
+        <tr>
+          <th>Quiz Title</th>
+          <th>Score Achieved</th>
+          <th>Date & Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in results %}
+          <tr>
+            <td class="fw-bold">{{ r.title }}</td>
+            <td style="color: #43e97b; font-weight: bold;">{{ r.score }} Pts</td>
+            <td style="color: rgba(255,255,255,0.6) !important;">{{ r.attempted_on[:16] }}</td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="3" class="text-center text-muted py-4">You haven't attempted any quizzes yet.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

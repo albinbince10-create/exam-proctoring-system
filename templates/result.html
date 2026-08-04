@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Result</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    background: url('{{ url_for("static", filename="images/ein.jpg") }}') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+}
+body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 0;
+}
+.result-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+@keyframes popIn {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+.score-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: conic-gradient(#4e54c8, #8f94fb);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4);
+}
+</style>
+</head>
+<body>
+
+<div class="result-card">
+    <h2 class="fw-bold mb-4 text-dark">Exam Completed! 🎉</h2>
+    
+    <div class="score-circle">
+        {{ score.score if score else 0 }}
+    </div>
+    
+    <h4 class="text-muted mb-4">Total Score Achieved</h4>
+    
+    <div class="d-grid gap-2">
+        <a href="/user_dashboard" class="btn btn-primary btn-lg">Return to Dashboard</a>
+    </div>
+</div>
+
+</body>
+</html>

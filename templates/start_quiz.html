@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Start Quiz</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f5f5f5;
+            margin:0;
+            padding:20px;
+        }
+
+        .container{
+            max-width:800px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:8px;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2{
+            text-align:center;
+        }
+
+        .question{
+            margin-bottom:25px;
+        }
+
+        .options label{
+            display:block;
+            margin:6px 0;
+        }
+
+        .submit-btn{
+            margin-top:20px;
+            padding:10px 20px;
+            background:#007bff;
+            border:none;
+            color:white;
+            cursor:pointer;
+            border-radius:5px;
+        }
+
+        .submit-btn:hover{
+            background:#0056b3;
+        }
+
+        #timer{
+            text-align:right;
+            font-weight:bold;
+            color:red;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Quiz</h2>
+
+<div id="timer">
+Time Left: <span id="time">1800</span> seconds
+</div>
+
+<form method="POST" action="/submit_quiz/{{ quiz_id }}">
+
+{% for q in questions %}
+
+<div class="question">
+
+<p><strong>Q{{ loop.index }}. {{ q.question }}</strong></p>
+
+<div class="options">
+
+<label>
+<input type="radio" name="{{ q.id }}" value="a" required>
+{{ q.option_a }}
+</label>
+
+<label>
+<input type="radio" name="{{ q.id }}" value="b">
+{{ q.option_b }}
+</label>
+
+<label>
+<input type="radio" name="{{ q.id }}" value="c">
+{{ q.option_c }}
+</label>
+
+<label>
+<input type="radio" name="{{ q.id }}" value="d">
+{{ q.option_d }}
+</label>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+<button type="submit" class="submit-btn">Submit Quiz</button>
+
+</form>
+
+</div>
+
+
+<script>
+
+let time = 1800; // 30 minutes
+
+let timer = setInterval(function(){
+
+    time--;
+
+    document.getElementById("time").innerText = time;
+
+    if(time <= 0){
+        clearInterval(timer);
+        alert("Time is up! Submitting quiz.");
+        document.querySelector("form").submit();
+    }
+
+},1000);
+
+</script>
+
+</body>
+</html>

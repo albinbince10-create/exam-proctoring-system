@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leaderboard - {{ quiz.title }}</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    background: url('{{ url_for("static", filename="images/ein.jpg") }}') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+  }
+  body::before {
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 15, 20, 0.85); backdrop-filter: blur(8px); z-index: -1;
+  }
+  .glass-card {
+    background: rgba(30, 30, 40, 0.75); border: 1px solid rgba(255, 215, 0, 0.3); /* Gold border */
+    border-radius: 20px; padding: 40px; box-shadow: 0 10px 40px rgba(255, 215, 0, 0.15);
+    width: 100%; max-width: 700px;
+  }
+  
+  /* --- FIXED TABLE STYLES --- */
+  .table-glass { 
+    margin-top: 20px; 
+    --bs-table-bg: transparent; /* This kills the white background! */
+  }
+  .table-glass tr, .table-glass td, .table-glass th {
+    background-color: transparent !important; /* Forces the glass look */
+  }
+  .table-glass thead th {
+    border-bottom: 2px solid #ffd700 !important; 
+    color: #ffd700 !important; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+  }
+  .table-glass td, .table-glass th {
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important; 
+    padding: 15px 10px; 
+    color: #f8f9fa !important;
+  }
+  
+  /* Highlight the #1 Spot! */
+  .rank-1 td {
+      color: #ffd700 !important; font-weight: bold; font-size: 1.1rem;
+      background-color: rgba(255, 215, 0, 0.1) !important; 
+      border-radius: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div style="position: absolute; top: 20px; left: 20px;">
+    <a href="/user_dashboard" class="btn btn-outline-light rounded-pill px-4">← Back to Dashboard</a>
+</div>
+
+<div class="glass-card text-center">
+  <h2 class="fw-bold mb-2" style="color: #ffd700;">🏆 Hall of Fame</h2>
+  <p class="text-light mb-4 fs-5">{{ quiz.title }}</p>
+
+  <table class="table table-glass text-start">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Student Name</th>
+        <th>High Score</th>
+        <th>Date Achieved</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for leader in leaders %}
+        <tr class="{% if loop.index == 1 %}rank-1{% endif %}">
+          <td>#{{ loop.index }}</td>
+          <td>
+            {% if loop.index == 1 %}👑 {% endif %}
+            {{ leader.name }}
+          </td>
+          <td>{{ leader.best_score }} Pts</td>
+          <td style="color: rgba(255,255,255,0.6) !important; font-size: 0.9em;">
+              {{ leader.attempted_on[:16] }}
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="4" class="text-center text-muted py-4">No one has taken this exam yet. Be the first!</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

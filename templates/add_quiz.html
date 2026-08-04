@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Manual Exam</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: url('{{ url_for("static", filename="images/ad.jpg") }}') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+    body::before {
+      content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 15, 20, 0.85); backdrop-filter: blur(8px); z-index: -1;
+    }
+    .glass-card {
+      background: rgba(30, 30, 40, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      width: 100%; max-width: 500px;
+    }
+    .modern-input {
+      background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white; border-radius: 12px; padding: 14px 15px; width: 100%;
+    }
+    .modern-input:focus {
+      background: rgba(255, 255, 255, 0.1); border-color: #ff0844; box-shadow: 0 0 15px rgba(255, 8, 68, 0.3); outline: none;
+    }
+    .btn-gradient {
+      background: linear-gradient(to right, #ff0844, #ffb199); color: white; border: none; font-weight: bold; border-radius: 12px; padding: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div style="position: absolute; top: 20px; left: 20px;">
+    <a href="/dashboard" class="btn btn-outline-light rounded-pill px-4">← Cancel</a>
+</div>
+
+<div class="glass-card text-center">
+  <h2 class="mb-3 fw-bold">Create Blank Exam</h2>
+  <p class="text-muted mb-4">Set up your manual exam details below.</p>
+  
+  <form method="POST">
+    <div class="mb-3 text-start">
+      <label class="form-label text-light fw-bold ms-1" style="font-size: 0.9rem;">Exam Title</label>
+      <input type="text" name="title" class="modern-input" placeholder="e.g., Final Year Networking Exam" required>
+    </div>
+    
+    <div class="mb-4 text-start">
+      <label class="form-label text-light fw-bold ms-1" style="font-size: 0.9rem;">Time Limit (Minutes)</label>
+      <input type="number" name="time_limit" class="modern-input" value="10" min="1" max="120" required>
+    </div>
+
+    <button type="submit" class="btn btn-gradient w-100">Create & Add Questions</button>
+  </form>
+</div>
+
+</body>
+</html>

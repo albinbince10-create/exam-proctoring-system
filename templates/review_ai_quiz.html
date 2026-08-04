@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Review AI Quiz</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+  <div class="container">
+    <h2 class="mb-4 text-primary">Review Generated Questions</h2>
+    
+    <form action="/save_ai_quiz" method="POST">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <label class="form-label fw-bold">Enter a Title for this Quiz:</label>
+            <input type="text" name="quiz_title" class="form-control" required placeholder="e.g., Chapter 5: Organic Farming Notes">
+        </div>
+      </div>
+
+      <input type="hidden" name="quiz_json" value="{{ json_string }}">
+
+      {% for q in quiz_data %}
+        <div class="card mb-3 shadow-sm border-start border-primary border-4">
+          <div class="card-body">
+            <p><strong>Q{{ loop.index }}: {{ q.question }}</strong></p>
+            <div class="row">
+                <div class="col-md-6">A: {{ q.options.a or q.options.A }}</div>
+                <div class="col-md-6">B: {{ q.options.b or q.options.B }}</div>
+                <div class="col-md-6">C: {{ q.options.c or q.options.C }}</div>
+                <div class="col-md-6">D: {{ q.options.d or q.options.D }}</div>
+            </div>
+            <p class="text-success mt-2 mb-0 fw-bold">✅ Correct Answer: {{ q.answer|upper }}</p>
+          </div>
+        </div>
+      {% endfor %}
+
+      <div class="sticky-bottom bg-white p-3 shadow-lg rounded mb-4 mt-4 text-center">
+          <button type="submit" class="btn btn-success btn-lg px-5">Save Quiz to Database</button>
+          <a href="/dashboard" class="btn btn-danger btn-lg px-5 ms-2">Discard</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - AI Auto-Quiz</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      /* Using the same background for consistency */
+      background: url('{{ url_for("static", filename="images/peo.jpg") }}') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+    }
+    
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(10, 10, 15, 0.7); 
+      backdrop-filter: blur(5px); 
+      z-index: 0;
+    }
+
+    /* --- THE GLOWING CARD --- */
+    .glow-box {
+      position: relative;
+      width: 380px;
+      border-radius: 24px;
+      padding: 4px; 
+      overflow: hidden;
+      z-index: 1;
+      animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.8) translateY(30px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* The Rotating Gradient Background */
+    .glow-box::before {
+      content: "";
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: conic-gradient(from 0deg, #00f2fe, #4facfe, #8f94fb, #00f2fe);
+      animation: rotating 4s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes rotating {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* The Inner Dark Glass Box */
+    .box-inner {
+      position: relative;
+      z-index: 2;
+      background: rgba(25, 25, 32, 0.95);
+      border-radius: 20px;
+      padding: 40px 30px;
+      text-align: center;
+      color: #fff;
+    }
+
+    h2 {
+      font-weight: 700;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+
+    /* --- MODERN INPUT FIELDS --- */
+    .modern-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 12px;
+      padding: 14px 15px;
+      margin-bottom: 20px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .modern-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .modern-input:focus {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #00f2fe;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+      outline: none;
+    }
+
+    /* --- PREMIUM ANIMATED BUTTON (Green Theme for Register) --- */
+    .btn-custom-glow {
+      background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 51%, #43e97b 100%);
+      background-size: 200% auto;
+      color: #1a1a1a !important; /* Dark text on bright green */
+      border: none;
+      border-radius: 30px;
+      padding: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      box-shadow: 0 4px 15px rgba(56, 249, 215, 0.4);
+    }
+
+    .btn-custom-glow:hover {
+      background-position: right center;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(56, 249, 215, 0.6);
+    }
+
+    /* Glass Sweep Animation for Button */
+    .btn-custom-glow::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -100%;
+      width: 50%; height: 100%;
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+      transform: skewX(-25deg);
+      animation: sweep 4s infinite;
+      z-index: -1;
+    }
+
+    @keyframes sweep {
+      0% { left: -100%; }
+      20% { left: 200%; }
+      100% { left: 200%; }
+    }
+
+    .auth-link {
+      color: #38f9d7;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .auth-link:hover {
+      color: #43e97b;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <div style="position: absolute; top: 20px; left: 20px; z-index: 10;">
+      <a href="/" class="btn btn-outline-light rounded-pill px-4">← Back to Home</a>
+  </div>
+
+  <div class="glow-box">
+    <div class="box-inner">
+      <form method="POST">
+        <h2>Create Account</h2>
+
+        {% if error %}
+          <div class="alert alert-danger" style="border-radius: 12px;">{{ error }}</div>
+        {% endif %}
+
+        <input type="text" name="name" class="modern-input" placeholder="Full Name" required>
+        <input type="email" name="email" class="modern-input" placeholder="Email Address" required>
+        <input type="password" name="password" class="modern-input" placeholder="Password" required>
+
+        <button class="btn w-100 mt-2 btn-custom-glow">Register Now</button>
+
+        <p class="mt-4 mb-0" style="color: rgba(255,255,255,0.7);">
+          Already have an account?
+          <br>
+          <a href="/login" class="auth-link">Login Here</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

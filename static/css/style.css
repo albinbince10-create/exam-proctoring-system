@@ -1,0 +1,121 @@
+/* ===== Global Styles ===== */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    color: #fff;
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* ===== Card Styling ===== */
+.card {
+    background-color: #1e1e2f; /* dark card */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    padding: 20px;
+    color: #fff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+
+/* ===== Hero / Quiz Section ===== */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+}
+
+/* ===== Quiz Question Box ===== */
+.quiz-question {
+    background-color: #2a2a3d;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.quiz-question h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #00f2fe;
+}
+
+.option {
+    background-color: #1e1e2f;
+    padding: 12px 20px;
+    margin: 10px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.option:hover {
+    background-color: #00f2fe;
+    color: #000;
+}
+
+/* ===== Quiz Navigation (Right Panel) ===== */
+.quiz-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.quiz-nav button {
+    background-color: #1e1e2f;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.quiz-nav button.active {
+    background-color: #00f2fe;
+    color: #000;
+}
+
+/* ===== Buttons ===== */
+button, .btn {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #00f2fe;
+    color: #000;
+}
+
+.btn-primary:hover {
+    background-color: #00d8fc;
+}
+
+/* ===== Footer ===== */
+footer {
+    background: rgba(30, 30, 30, 0.9);
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+}
+
+/* ===== Responsive ===== */
+@media(max-width: 768px){
+    .quiz-nav {
+        justify-content: center;
+    }
+}
