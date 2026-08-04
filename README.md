@@ -111,6 +111,55 @@ Example:
 - Certificate Generation
 
 ---
+## 📸 Screenshots
+
+### 🏠 Home Page
+![Home Page](screenshots/home.png)
+
+### 🔐 Admin Login
+![Admin Login](screenshots/admin_login.png)
+
+### 👤 User Login
+![User Login](screenshots/user_login.png)
+
+### 📝 User Registration
+![User Registration](screenshots/user_register.png)
+
+### 📚 User Dashboard
+![User Dashboard](screenshots/user_dashboard.png)
+
+### 📋 Manage Exams
+![Manage Exams](screenshots/manage_exam.png)
+
+### ✏️ Exam Edit Page
+![Exam Edit](screenshots/exam_edit_page.png)
+
+### 👨‍🎓 Manage Students
+![Manage Students](screenshots/manage_student.png)
+
+### 🤖 AI Quiz Generation
+![AI Quiz Generation](screenshots/ai_quiz_generation.png)
+
+### ➕ Manual Question Adding
+![Manual Question Adding](screenshots/manual_question_adding.png)
+
+### 🧪 Exam Page
+![Exam Page](screenshots/exam_page.png)
+
+### 📄 Blank Exam
+![Blank Exam](screenshots/blank_exam.png)
+
+### 📊 Score
+![Score](screenshots/score.png)
+
+### 📈 Results & Analytics
+![Results & Analytics](screenshots/result_&_analytics.png)
+
+### 🏆 User Ranking
+![User Ranking](screenshots/user_ranking.png)
+
+### 📜 User History
+![User History](screenshots/user_history.png)
 
 ## 👨‍💻 Developer
 
